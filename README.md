@@ -20,19 +20,21 @@ A poder ser utilizar estos requisitos para que funcione al 100%:
 - Iso Windows 2012 Server.
 - [Iso UbuntuServer 18.04 lts](https://ubuntu.com/download/server).
 
-### Configuración con Windows 2012 Server
+### Configuración de Windows 2012 Server
 
-### Configuración con Ubuntu Server
+### Configuración de Ubuntu Server
 
 #### Prepararando la maquina virtual
 #### Indice
+Lo primero es crear la maquina virtual obviamente:
+
 - [Configuracion principal de la maquina virtual](#Configuracion-principal-de-la-maquina-virtual).
 - [Configuracion de la RAM](#Configuracion-de-la-RAM).
 - [Configuracion del disco duro](#Configuracion-del-disco-duro)
 - [Configuracion general de la maquina](#Configuracion-general-de-la-maquina).
 - [Instalacion de ubuntu server](#Instalacion-de-ubuntu-server).
 
-Lo primero es crear la maquina virtual obviamente:
+
 - **Configuracion de la maquina:**
     - **Nombre:** EJ(UbuntuServer).
     - **Carpeta de máquina(donde se va a almacenar la maquina virtual):** EJ(C:\Users\VuestroUsuario\VirtualBox VMs, es la ruta por defecto yo no la he tocado).
@@ -41,52 +43,92 @@ Lo primero es crear la maquina virtual obviamente:
     - **RAM:** con 1818 MB va sobrado.
     - **Tipo de disco duro:** VHD(Virtual Hard Disk).
     - **Tipo de almacenamiento:** Reservado Dinamicamente y no hay que esperar a que se cree el disco duro, con unos 15-20 GB de almacenamiento irá perfecto.
-##### Configuracion principal de la maquina virtual
-![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig1.PNG)
-##### Configuracion de la RAM
-![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig2.PNG)
-##### Configuracion del disco duro
-- **Tipo de disco duro:**
-![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig3.PNG)
-- **Tipo de reserva del disco duro:**
-![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig4.PNG)
-- **Ubicacion del disco:**
-![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig5.PNG)
+#### Configuracion principal de la maquina virtual
 
-#### Configuracion general de la maquina
+<details>
+<summary>Clic para ver la imagen</summary>
+
+![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig1.PNG)
+
+</details>
+
+#### Configuracion de la RAM
+
+<details>
+<summary>Clic para ver la imagen</summary>
+
+![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig2.PNG)
+
+</details>
+
+#### Configuracion del disco duro
+
+- **Tipo de disco duro:**
+
+<details>
+<summary>Clic para ver la imagen</summary>
+
+![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig3.PNG)
+
+</details>
+
+- **Tipo de reserva del disco duro:**
+
+<details>
+<summary>Clic para ver la imagen</summary>
+
+![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig4.PNG)
+
+</details>
+
+- **Ubicacion del disco:**
+
+<details>
+<summary>Clic para ver la imagen</summary>
+
+![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig5.PNG)
+</details>
+### Configuracion general de la maquina
 
 - Cuando se termina de crear la maquina, tenemos que configurar una ultima cosa dentro de la configuracion de la maquina. En **virtualbox > Configuracion.**
 - ***Se abrirá una pestañita y a la izquierda nos vamos al apartado de almacenamiento.***
 - Una vez dentro de ese apartado ***seleccionamos el cd que sale en dispositivos de almacenamiento*** y en las opciones de la derecha, justo a la derecha de IDE secundario maestro ***clicamos en el cd y se abrirá un desplegable con varias opciones.***
 - Seleccionamos la primera opcion la cual dice ***Seleccionar archivo de disco óptico virtual...*** y buscamos la imagen iso de nuestro ubuntu server.
+
+<details>
+<summary>Clica para ver la imagen</summary>
+
 ![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig6.PNG)
 - Una vez hecho esto le damos a aceptar y iniciamos la maquina virtual.
-
+</details>
 #### Instalacion de ubuntu server
 > Antes de empezar, tienes que saber que para moverte por la instalacion de ubuntu server, tienes que usar las flechitas o el tabulador para ir moviendote por las opciones y el enter para seleccionar.
-#### Indice
- - **Primera ventana:** Español.
- - [**Segunda ventana:** Layout(Teclado), tiene que ser Español](#Teclado)
- - **Tercera ventana:** tarjeta de red, lo dejamos por defecto.
- - **Cuarta ventana:** Proxy address: no lo tocamos y seguimos adelante.
- - **Quinta ventana:** Mirror address: no lo tocamos, lo dejamos por defecto y seguimos.
- - **Sexta ventana:** configuracion del disco duro: la primera opción [Use An Entire Disk](Configuracion-del-disco-duro) y seguimos adelante.
- - **Septima ventana:** configuración de las particiones, si quereis crear mas particiones aquí es donde teneis que hacerlo, yo lo he dejado por defecto y he seguido adelante, saldrá un aviso al darle a hecho, le damos a continuar.
-##### Teclado
-- **Septima ventana:** [aqui se escoge el disco duro donde se va instalar el sistema operativo](#), yo como solo tengo un disco duro lo dejo por defecto.
-- **Octava ventana:** [configuracion del usuario](Configuracion-del-usuario):
+### Indice
+ 1. Configuración del idioma: Español.
+ 2. [**Configuración del teclado:** Layout(Teclado), tiene que ser Español](#Teclado)
+ 3. **Configuración de la tarjeta de red:** tarjeta de red, lo dejamos por defecto.
+ 4. **Configuración Proxy:** Proxy address: no lo tocamos y seguimos adelante.
+ 5. **Configuración Mirro:** Mirror address: no lo tocamos, lo dejamos por defecto y seguimos.
+ 6. **Configuración del disco duro:** configuracion del disco duro: la primera opción [Use An Entire Disk](Configuracion-del-disco-duro) y seguimos adelante.
+ 7. **Configuración de las particiones:** configuración de las particiones, si quereis crear mas particiones aquí es donde teneis que hacerlo, yo lo he dejado por defecto y he seguido adelante, saldrá un aviso al darle a hecho, le damos a continuar.
+8. **Selección del disco duro:** [aqui se escoge el disco duro donde se va instalar el sistema operativo](#), yo como solo tengo un disco duro lo dejo por defecto.
+9. **Configuración del usuario:** [configuracion del usuario](Configuracion-del-usuario):
     - **Your name:** aqui tienes que poner un nombre, ya sea el tuyo o te lo inventas.
     - **Your server´s name**: lo mismo que atrás puedes poner tu nombre o te lo inventas, este será el nombre de tu servidor.
     - **Pick a username:** este será el nombre del usuario ubuntu con el que iniciarás sesión en ubuntu server, acuerdate de él.
     - **Choose password:** la contraseña con la que iniciaras sesion en ubuntu server, la opción que está justo debajo tiene que tener la misma contraseña porque es la confirmación.
 
-- **Novena ventana:** instalación de servidor SSH, no lo tocamos y seguimos.
-- **Decima ventana:** instalación de pequeños servicios, no he instalado ninguno y he seguido adelante.
-- **Ultimas ventanas:** ya solo queda esperar a que se instale, puedes cancelar las actualizaciones y [comenzar a utilizar ubuntu](#Preconfiguraciones-al-servidor-DHCP).
+10. **Servidor SSH:** instalación de servidor SSH, no lo tocamos y seguimos.
+11. **Instalación de servicios:** instalación de pequeños servicios, no he instalado ninguno y he seguido adelante.
+12. **Ultimas ventanas:** ya solo queda esperar a que se instale el sistema operativo, puedes cancelar las actualizaciones y [comenzar a utilizar ubuntu](#Preconfiguraciones-al-servidor-DHCP).
+
+#### Teclado
+<details>
+<summary>Configuración del teclado</summary>
 
 ![Configuracion instalacion ubuntu server](Screenshots/UbuntuInstallationConfig1.PNG)
-
-##### Configuracion del disco duro
+</details>
+#### Configuracion del disco duro
 - **Configuracion del disco:**
 <details>
   <summary>Imagen con la configuracion del disco duro</summary>
@@ -111,7 +153,7 @@ Lo primero es crear la maquina virtual obviamente:
   
 </details>
 
-##### Configuracion del usuario
+#### Configuracion del usuario
 <details>
   <summary>Imagen de la configuracion del usuario</summary>
 
@@ -119,4 +161,4 @@ Lo primero es crear la maquina virtual obviamente:
   
 </details>
 
-#### Preconfiguraciones al servidor DHCP
+### Preconfiguraciones al servidor DHCP
