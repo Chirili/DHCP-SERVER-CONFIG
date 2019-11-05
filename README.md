@@ -169,3 +169,121 @@ Lo primero es crear la maquina virtual obviamente:
 </details>
 
 ### Preconfiguraciones al servidor DHCP
+### Indice
+- [Preconfiguración del sistema opertivo](#Preconfiguración-del-sistema-opertivo).
+- [Configuración de la tarjeta de red](#Configuracion-de-la-tarjeta-de-red).
+- [Configuración del servidor isc-dhcp-server](#Configuracion-del-servidor-isc-dhcp-server)
+
+### Preconfiguración del sistema opertivo
+- Una vez instalado y reiniciado el sistema operativo iniciamos sesion con nuestro nombre de usuario y la contraseña que introducimos:
+
+>Cuando hayamos iniciado sesión, lo que ami me gusta hacer antes de empezar con las configuraciones es cambiarle la contraseña al usuario root y ejecutar todos los comandos como usuario root, ustedes podeis hacerlo como querais usando el comando sudo si estais con vuestro usuario o con el usuario root:
+
+Para cambiarle la contraseña al usuario root lo hacemos con el siguiente comando:
+
+```bash
+sudo passwd root
+```
+
+Cuando introducimos este comando te pedirá que introduzcas la contraseña de tu usuario, despues de eso tendrás que introducir la contraseña que quieres darle al usuario root, y por ultimo deberas introducir otra vez la contraseña dada al usuario root para confirmarla.
+
+Si todo ha ido bien saldrá un mensaje al final que dirá lo siguiente: **passwd: password updated successfully**
+
+- Conforme acabemos de cambiar la contraseña del usuario **root**, iniciaremos sesión con el usando root con el siguiente comando:
+```bash
+su root
+```
+- Una vez dentro con el usuario **root** actualizaremos los repositorios e instalaremos el servidor dhcp, con el siguiente comando:
+
+```bash
+apt update && apt upgrade && apt install isc-dhcp-server
+```
+
+- Cuando acabe de ejecutar estos comando, vamos a establecer la red de la maquina virtual a **red interna** para hacer esto nos vamos a la parte inferior de la maquina virtual ejecutandose y hacemos clic derecho en uno de los iconitos que tiene dos pantalla una detrás de otra:
+
+<details>
+<summary>Haz clic aquí para ver la imagen de la explicación</summary>
+
+![Configuracion instalacion ubuntu server](Screenshots/UbuntuConfig.PNG)
+</details>
+
+- Al hacer esto se abrirá una pestaña, en el adaptador que vayas a usar para el servidor, que en mi caso es el adaptador 1 saldrá una opción de **Conectado a: NAT**, le clicamos y la cambiamos a **red interna** y debería quedar de la siguiente manera:
+
+<details>
+<summary>Haz clic aquí para ver la imagen de la explicación</summary>
+
+![Configuracion instalacion ubuntu server](Screenshots/UbuntuConfig2.PNG)
+</details>
+
+### Configuracion de la tarjeta de red
+El servidor DHCP tiene que tener una dirección **IP estática** para que pueda funcionar correctamente, asi que tenemos que configurar la tarjeta de red para asignarle una direccion IP estatica
+
+Para configurar la tarjeta de red vamos a tener que modificar un archivo que se encuentra en la carpeta **/etc/netplan**, así que antes de modificarlo vamos a hacer una copia del mismo por si acaso, lo haremos con el siguiente comando:
+
+- Primero nos movemos al directorio del archivo y luego hacemos la copia:
+```bash
+cd /etc/netplan
+```
+
+- Dentro del directorio tiene que haber un archivo llamado 50-cloud-init.yaml, este archivo es al que haremos una copia, podeis verlo usando el comando ls, para realizar la copia hay que ejecutar este comando:
+
+```bash
+cp 50-cloud-init.yaml (Aqui poneis el nombre que le quereis dar EJ: 50-cloud-init-copia.yaml).
+```
+
+- Si se lia con el archivo para traer la copia es hacer lo mismo pero poniendo el nombre del archivo, **AVISO** no se puede modificar el nombre del archivo y poner el que te de la gana su nombre es **50-cloud-init.yaml**
+     
+    - Como volcar la copia de seguridad y tenerlo por defecto:
+    ```bash
+    cp 50-cloud-init-copia.yaml 50-cloud-init.yaml
+    ```
+
+
+- Para editar el archivo voy a utilizar nano:
+```bash
+nano 50-cloud-init.yaml
+```
+
+- Una vez dentro del archivo, tiene que añadir lo siguiente al archivo, **AVISO:** no puedes usar tabulaciones sino peta:
+
+```
+network:
+    ethernets:
+        enp0s3:
+          dhcp4: no
+          addresses: [192.168.1.5/24, ]
+          gatewary4: 192.168.1.0
+
+          version: 2
+```
+- Para guardar el archivo es necesario pulsar **CTRL+O y CTRL+X**.
+- Si no estais como usuario **root** recordad usar el comando **sudo** para editar el archivo, sino no os dejará guardar.
+
+- **Explicación del archivo:**
+    - **enp0s3:** este es el nombre que se le da a la tarjeta de red por defecto en ubuntu, si hubiese otra saldria enp0s3 y enp0s8, si quereis saber el nombre de vuestra tarjeta de red teneis que usar el siguiente comando:
+        ```bash
+        ifconfig
+        ```
+    - **dhcp4:** para buscar un servidor dhcp, lo desactivamos para configurar una **IP estatica**.
+    - **addresses:** aqui se pone la direccion ip estatica de nuestro servidor, **yo recomiendo siempre que el tercer digito sea mayor que 0, 192.168.2.25 o 192.168.1.25 por ejemplo**, aqui podeis darle la dirección que a ustedes os venga mejor.
+    - **gateway4:** esto en realidad no es necesario porque es la puerta de enlace para la conexion a internet, pero de igual forma la configuramos, **teneis que tener cuidado, porque para configurarla, por ejemplo si tengo la direccion IP 192.168.58.30, el gateway es la direccion ip 192.168.58.1, el ultimo numero siempre tiene que ser 1.**
+
+- Una vez modificado el archivo para aplicar los cambios tenemos que usar el siguiente comando:
+
+```bash
+netplan apply
+```
+- Si se ha escrito todo correctamente en el archivo al ejecutar el comando no saltará ningun error.
+
+- Para saber si los cambios se han aplicado correctamente tenemos que ejecutar el siguiente comando:
+ 
+ ```bash
+ ifconfig
+ ```
+ 
+ - Y observar si la direccion ip de la tarjeta de red enp0s3 se ha modificado, observa la imagen:
+
+ ![Configuracion de la tarjeta de red](Screenshots/UbuntuTarjetaConfig.PNG)
+
+
+ ### Configuracion del servidor isc-dhcp-server
