@@ -287,3 +287,72 @@ netplan apply
 
 
  ### Configuracion del servidor isc-dhcp-server
+
+ - Para configurar el servidor de dhcp tenemos que modificar su archivo de configuración llamado **dhcpd.conf**, el cual está ubicado en la carpeta **/etc/dhcp**.
+
+ - Antes de modificar el archivo vamos a hacerle una copia de seguridad por si acaso:
+  ```bash
+  cd /etc/dhcp
+  ```
+- Con el comando anterior vamos hacia el directorio del servidor dhcp y vamos a hacerle la copia al fichero de configuración:
+```bash
+cp dhcpd.conf dhcpd-copia.conf
+```
+
+- Una vez hecha la copia vamos a modificar el archivo con nano:
+
+```
+nano dhcpd.conf
+```
+
+- Cuando estemos dentro del archivo bajamos hasta el final del archivo y añadimos las siguientes lineas al archivo:
+
+```
+subnet 192.168.1.0 netmask 255.255.255.0 {
+range 192.168.1.1 192.168.1.20;
+option subnet-mask 255.255.255.0;
+option broadcast-address 192.168.1.255;
+option routers 192.168.1.1;
+}
+```
+- Resultado:
+![Configuración del servidor DHCP](Screenshots/UbuntuDHCPConfig.PNG)
+- Explicacion del archivo:
+  - **subnet:** aqui va una direccion ip que se le asigna a la subred, esta direccion ip tiene que ir acorde a la direccion ip estatica asignada al servidor. Por ejemplo: **tengo la IP estatica 192.168.64.5, en subnet tendriamos que poner 192.168.64.0**, justo al lado tenemos la mascara de subred que es /24 o 255.255.255.0, esto en principio no hay que modificarlo.
+
+  - **range:** este es el rango de direcciones que dará el servidor a los clientes.
+
+  - **option subnet-mask:** esta es la mascara de subred que tendrá nuestros clientes, en principio tampoco se modifica.
+
+  - option broadcast-address: está seria la direccion ip de broadcast de nuestra subred. Voy a utilizar el ejemplo anterior: **tengo la direccion ip 192.168.64.5, aquí tendriamos que poner 192.168.64.255, los ultimos 3 digitos tienen que ser siempre 255.**
+  - **option routers:** está opcion marca la direccion ip de la puerta de enlace de la tarjeta de red. Voy a utilizar el ejemplo anterior: **si tengo la direccion ip 192.168.64.5, la puerta de enlace seria 192.168.64.1,** entonces en **option routers tendriamos que poner 192.168.64.1.**
+
+- Una vez terminada la configuración solo nos faltaría inicializar el servicio con uno de los siguientes comando:
+
+```bash
+# Comando 1
+service isc-dhcp-server start
+# Comando 2
+systemctl start isc-dhcp-server
+
+# Usa uno de los dos
+```
+
+- Si se ejecuta sin fallos, vamos a comprobar si está inicializado, ejecutando uno de los siguientes comandos, tendrá que salir como resultado lo siguiente:
+  - service isc-dhcp-server
+
+    ![Configuración del servidor DHCP](Screenshots/UbuntuDHCPConfig2.PNG)
+
+  - systemctl status isc-dhcp-server
+
+  ![Configuración del servidor DHCP](Screenshots/UbuntuDHCPConfig3.PNG)
+
+- Ya solo faltaria comprobar si al cliente le asigna la direccion ip correspondiente.
+
+  - Si es un **cliente windows** tienes configurar la tarjeta de red, para que busque las **direcciones IP por DHCP o Obtener una direccion IP automaticamente**:
+  - Si es una **maquina windows** tiene que estar en red interna y para ver si funciona abrimos un CMD y ejecutamos el siguiente comando:
+
+  ```bash
+  ipconfig
+  ```
+  - Si es una maquina linux lo mismo, red interna y se configura la tarjeta de red para que coja la direccion IP via DHCP
