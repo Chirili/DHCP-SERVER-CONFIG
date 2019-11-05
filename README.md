@@ -43,6 +43,7 @@ Lo primero es crear la maquina virtual obviamente:
     - **RAM:** con 1818 MB va sobrado.
     - **Tipo de disco duro:** VHD(Virtual Hard Disk).
     - **Tipo de almacenamiento:** Reservado Dinamicamente y no hay que esperar a que se cree el disco duro, con unos 15-20 GB de almacenamiento irá perfecto.
+
 #### Configuracion principal de la maquina virtual
 
 <details>
@@ -88,6 +89,7 @@ Lo primero es crear la maquina virtual obviamente:
 
 ![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig5.PNG)
 </details>
+
 ### Configuracion general de la maquina
 
 - Cuando se termina de crear la maquina, tenemos que configurar una ultima cosa dentro de la configuracion de la maquina. En **virtualbox > Configuracion.**
@@ -99,8 +101,11 @@ Lo primero es crear la maquina virtual obviamente:
 <summary>Clica para ver la imagen</summary>
 
 ![Configuracion de virtual box](Screenshots/ubuntuVBoxConfig6.PNG)
-- Una vez hecho esto le damos a aceptar y iniciamos la maquina virtual.
+
 </details>
+
+- Una vez hecho esto le damos a aceptar y iniciamos la maquina virtual.
+
 #### Instalacion de ubuntu server
 > Antes de empezar, tienes que saber que para moverte por la instalacion de ubuntu server, tienes que usar las flechitas o el tabulador para ir moviendote por las opciones y el enter para seleccionar.
 ### Indice
