@@ -133,7 +133,9 @@ Lo primero es crear la maquina virtual obviamente:
 
 ![Configuracion instalacion ubuntu server](Screenshots/UbuntuInstallationConfig1.PNG)
 </details>
+
 #### Configuracion del disco duro
+
 - **Configuracion del disco:**
 <details>
   <summary>Imagen con la configuracion del disco duro</summary>
