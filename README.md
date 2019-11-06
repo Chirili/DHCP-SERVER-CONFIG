@@ -201,19 +201,17 @@ apt update && apt upgrade && apt install isc-dhcp-server
 - Cuando acabe de ejecutar estos comando, vamos a establecer la red de la maquina virtual a **red interna** para hacer esto nos vamos a la parte inferior de la maquina virtual ejecutandose y hacemos clic derecho en uno de los iconitos que tiene dos pantalla una detrás de otra:
 
 <details>
-<summary>Haz clic aquí para ver la imagen de la explicación</summary>
+  <summary>Haz clic para ver la imagen</summary>
 
-
-![Configuracion instalacion ubuntu server](Screenshots/UbuntuConfig.PNG)
+![Configuracion tarjeta de red ubuntu server](Screenshots/UbuntuConfig.png)
 </details>
 
 - Al hacer esto se abrirá una pestaña, en el adaptador que vayas a usar para el servidor, que en mi caso es el adaptador 1 saldrá una opción de **Conectado a: NAT**, le clicamos y la cambiamos a **red interna** y debería quedar de la siguiente manera:
 
 <details>
-<summary>Haz clic aquí para ver la imagen de la explicación</summary>
+  <summary>Haz clic para ver la imagen</summary>
 
-
-![Configuracion instalacion ubuntu server](Screenshots/UbuntuConfig2.PNG)
+![Configuracion tarjeta de red ubuntu server](Screenshots/UbuntuConfig2.png)
 </details>
 
 ### Configuracion de la tarjeta de red
