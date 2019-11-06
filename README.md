@@ -21,7 +21,143 @@ A poder ser utilizar estos requisitos para que funcione al 100%:
 - [Iso UbuntuServer 18.04 lts](https://ubuntu.com/download/server).
 
 ### Configuración de Windows 2012 Server
+> Con windows voy a empezar directamente con la configuración del servidor DHCP, contando con que la maquina ya está creada, la instalación de un windows server es siguiente, siguiente.
+#### Indice
+1. [Configurar la tarjeta de red](#Configurar-la-tarjeta-de-red)
+2. [Agregar el rol/característica DHCP](#Agregar-el-rol/característica-DHCP)
+3. [Configuración del servidor DHCP](#Configuración-del-servidor-DHCP)
 
+
+#### Configurar la tarjeta de red
+- Antes de empezar a instalar el servidor DHCP tenemos que configurar la dirección IP de nuestro servidor, a una dirección IP estatica, para hacerlo hay que hacer lo siguiente:
+
+- En el escritorio de windows abajo a la derecha, justo a la izquierda de la hora hay un **icono con una pantalla y un cable**, le hacemos clic derecho, y en el desplegable seleccionamos abrir el **Centro de redes y recursos compartidos**
+
+<details>
+    <summary>Haz clic para ver la imagen</summary>
+
+ ![Configuración del servidor Windows](Screenshots/WindowsServerPreConfig1.PNG)
+</details>
+
+- En la ventana que se nos abre vamos a la ziquierda a **Configuración del adaptador** y le hacemos clic
+
+<details>
+    <summary>Haz clic para ver la imagen</summary>
+
+ ![Configuración del servidor Windows](Screenshots/WindowsServerPreConfig1.PNG)
+</details>
+
+- Se nos abrirá otra ventana mas con los **adaptadores de red disponibles**, el que vayamos a usar para nuestro servidor DHCP es sobre el cual haremos doble clic.
+
+- Al hacer doble clic sobre el adaptador se nos abrirá otra ventana mas con la información de ese adaptador, abajo a la derecha hacemos clic en **Propiedades.**
+
+- Y se volverá a abrir otra ventana mas llamada **Propiedades de Ethernet**, en esa ventana saldrán muchas opciones pero a nosotros la que nos interesa es la de la configuración de **IPv4**, clicamos en ella y justo debajo le damos a Propiedades:
+
+<details>
+    <summary>Haz clic para ver la imagen</summary>
+
+ ![Configuración del servidor Windows](Screenshots/WindowsServerPreConfig3.PNG)
+</details>
+
+- Dentro de las propiedades en **General** saldrán dos opciones, **Obtener una dirección IP automáticamente(es decir busca un servidor DHCP que le de la dirección)**, o **Usar la siguiente dirección IP(se la asignamos nosotros manualmente):**, hay que marcar la segunda opción para asignarle la IP fija:
+    - **Dirección IP:** en dirección ip marcamos la que queramos.
+    - **Máscara de subred:** la mascara de subred deberia de generarla automaticamente, si no lo hace y nuestra dirección ip es **192.168.X.X**, tendremos que poner la siguiente mascara **255.255.255.0**
+    - **Puerta de enlace:** la puerta de enlace tiene que ir acorde a la **dirección IP**, me explico, si poneis la direccion ip **192.168.0.60**, la puerta de enlace será la **192.168.0.1**, si ponemos la **192.168.100.60**, la puerta de enlace será la **192.168.100.1.**
+    - **Servidores DNS:** se pueden dejar en blanco, pero si quieres conexión a internet tendrás que poner por ejemplo los de google que son estás direcciones ip **8.8.8.8** y la **8.8.4.4.**
+
+<details>
+    <summary>Imagen de ejemplo con la configuración de la tarjeta de red</summary>
+
+ ![Configuración del servidor Windows](Screenshots/WindowsServerPreConfig4.PNG)
+</details>
+
+- Una vez terminada la configuración de la tarjeta de red, le damos a aceptar abajo a la derecha, y cerramos las ventanas, para comprobar que a funcionado, vamos al CMD y ejecutamos el comando **ipconfig:**
+
+- Resultado de la configuración:
+
+ ![Configuración del servidor Windows](Screenshots/WindowsServerPreConfig5.PNG)
+
+#### Agregar el rol/característica DHCP
+
+- Para agregar un servidor en Windows server en mi caso es **Windows 2012 R2 server**, vamos abajo a la izquierda, y clicamos en el icono que está justo a la derecha del simbolo de windows que parece **una caja de herramientas y una torre azul:**
+    - Esa es la **administración del servidor:**
+
+    <details>
+    <summary>Haz clic para ver la imagen</summary>
+
+    ![Configuración del servidor Windows](Screenshots/WindowsServerConfig.PNG)
+    </details>
+
+- Una vez dentro de la administración del servidor tenemos que ir arriba a la derecha y clicar en **Administras**, se nos abrirá un desplegable, en el desplegable tenemos que darle a **Agregar roles y características**:
+
+<details>
+    <summary>Haz clic para ver la imagen</summary>
+
+![Configuración del servidor Windows](Screenshots/WindowsServerConfig2.PNG)
+</details>
+
+- Una vez hecho esto se abrirá una ventana llamada **Asistente para agregar roles y características**:
+> El asistente va como por secciones que están identificadas a la izquierda y te salen marcadas en azul, asi que voy a ir una por una.
+
+- **Secciones:**
+    - **Antes de comenzar:** pantalla explicativa para que sirve y como funciona el asistente le damos a siguiente.
+    - **Tipo de instalación:** aquí se elige el tipo de instalación, para el servidor DHCP dejamos marcada la primera opción, la cual se llama **Instalación basada en características o en roles.**, y le damos a siguiente.
+    - **Selección del servidor:** en esta ventana se selecciona el servidor donde se va instalar el servicio de DHCP, al servidor que hayamos asignado la dirección IP estatica es al que seleccionaremos, como solo tenemos uno pues dejamos el que está y le damos a siguiente.
+    - **Roles del servidor:**  aquí se seleccionan los servidores o servicios que vamos a instalar, nosotros estamos buscando el DHCP, buscamos en la lista **Servidor DHCP**, una vez encontrado le marcamos el cuadrado de la izquierda:
+        - Al marcarlo saldrá una ventana emergente le damos a **Agregar Características.** Y seguimos dandole a siguiente.
+    - **Características:** en esta pantalla se seleccionan caracteristicas adicionales para añadir al servidor, para el servidor DHCP no necesitamos ninguna, asi que seguimos dandole a siguiente.
+
+- Ya las siguientes pantallas que vayan saliendo vamos dandole a siguiente y al final a instalar y con esto estaría instalado el servidor
+
+#### Configuración del servidor DHCP
+- Cuando se haya instalado el servidor DHCP, para configurarlo vamos al **Administrador del servidor**, dentro vamos a arriba a la derecha a **Herramientas** y en el desplegable seleccionamos **DHCP:**
+
+![Configuración del servidor DHCP](Screenshots/WindowsDHCPConfig1.PNG)
+
+- Se abrirá una ventana emergente y dentro de ella a la izquierda y en el centro nos mostrará el nombre de nuestra maquina, a la izquierda vamos abriendo el arbol hasta que veamos **IPv4**, hacemos clic derecho en **IPv4** y en el desplegable le damos a **Ámbito Nuevo:**
+
+![Configuración del servidor DHCP](Screenshots/WindowsDHCPConfig1.PNG)
+
+- Al hacer clic se nos abrirá una ventana emergente con un asistente de configuración de ambito nuevo, que será como el rango de dirrecion IP que va dar nuestro servidor DHCP, le damos a siguiente y saldrá una pantalla en la que tendremos que introducir **Nombre** y una **Descripcion**, al introducir los datos le damos a siguiente:
+
+> Con introducir es suficiente no es necesario introducir una descripcion, pero si se quiere diferencia un ambito de otro lo suyo es que tengan descripción, para quien va dirigido ese ambito y demás
+
+- En el intervalo de direcciones IP habrá dos opciones principales, **Dirección IP Inicial y Final:**
+    - En la **Dirección IP Inicial** pondremos la primera dirección ip que dará nuestro servidor siempre y cuando no corresponda con la misma que tiene el servidor, en mi caso voy a poner la **192.168.1.50**.
+    - En la Dirección IP Final pondremos la ultima dirección IP que queremos que de nuestro servidor DHCP, en mi caso voy a poner la **192.168.1.60.**
+
+![Configuración del servidor DHCP](Screenshots/WindowsDHCPConfig3.PNG)
+
+- Configurado esto le damos a siguiente, en esta pantalla llamada **Agregar exlusiones y retraso** se añaden direcciones ip o intervalos de las mismas, dentro del intervalo que no queremos que se otorguen de manera automatica por el servidor DHCP, yo para probarlo voy a poner que no asigne las direccion ip de la **192.168.1.50 a la 192.168.1.53, en teoria deberia empezar a asignar por la 192.168.1.54**.
+
+- Configurada las exclusiones le damos a siguiente y en la siguiente pantalla muestra cuanto tiempo va poder tener un usuario esa dirección ip, yo no lo voy a modificar y voy a seguir dandole a siguiente.
+
+- En al siguiente pantalla saldrán dos opciones **Configurar estas opciones ahora** y **Configurar estas opciones mas tarde**, nosotros marcaremos la segunda que dice **Configurar estas opciones mas tarde**, ya que es la configuración del servidor DNS y WINS y no nos hacen falta para el DHCP. Le damos a siguiente y finalizar.
+
+- Al cerrarse la ventana a la izquierda en el arbol, donde se encuentra **IPv4** estará nuestro ambito.
+
+![Configuración del servidor DHCP](Screenshots/WindowsDHCPConfig4.PNG)
+
+- Como vemos en la imagen el ambito se encuentra inactivo, para activarlo lo unico que tenemos que hacer es darle clic derecho en el ambito y en el desplegable darle a activar, una vez hecho esto automaticamente pasará a estar activo y comenzará a dar las direccion ip a los clientes.
+
+Para comprobar que funciona yo voy a usar mi ubuntu server 18.04 como cliente y al hacer config teniendo la tarjeta de red configurada en con DHCP deberia de darme la direccion IP:
+
+![Configuración del servidor DHCP](Screenshots/WindowsDHCPConfig5.PNG)
+
+Si veis que en el cliente ubuntu no asigna las direccion ip ejecutad estos comandos:
+
+```bash
+dhclient -r && dhclient
+```
+o de esta manera uno detrás de otro:
+```bash
+dhclient -r
+```
+```
+dhclient
+```
+
+Estos comandos equivalen a los de windows, es decir, con **dhclient -r** lo que estamos haciendo es liberar la direccion ip actualmente asignada al equipo y equivale al **ipconfig /release** de windows y con **dhclient** lo que hacemos es pedirle a un servidor DHCP que nos asigne una nueva dirección ip y equivale al **ipconfig /renew** de windows
 ### Configuración de Ubuntu Server
 
 #### Prepararando la maquina virtual
@@ -350,9 +486,14 @@ systemctl start isc-dhcp-server
 - Ya solo faltaria comprobar si al cliente le asigna la direccion ip correspondiente.
 
   - Si es un **cliente windows** tienes configurar la tarjeta de red, para que busque las **direcciones IP por DHCP o Obtener una direccion IP automaticamente**:
-  - Si es una **maquina windows** tiene que estar en red interna y para ver si funciona abrimos un CMD y ejecutamos el siguiente comando:
+  - Si es una **maquina windows** tiene que estar en red interna y para ver si funciona abrimos un CMD y ejecutamos el siguiente comando, aqui teneis una imagen de como quedaria:
 
-  ```bash
+```bash
   ipconfig
-  ```
-  - Si es una maquina linux lo mismo, red interna y se configura la tarjeta de red para que coja la direccion IP via DHCP
+```
+
+![Cliente windows conectado a ubuntu server con DHCP](Screenshots/WindowsClientDHCP.png)
+
+- En la imagen se ve a la derecha se ve la configuración de mi servidor DHCP en linux, y a la izquierda se ve como al tener la maquina Windows en red interna, y con la busqueda automatica de direccion IP, al hacer ipconfig tenemos asignada la direccion ip 192.168.1.2. 
+
+- Si es una maquina linux lo mismo, red interna y se configura la tarjeta de red para que coja la direccion IP via DHCP
