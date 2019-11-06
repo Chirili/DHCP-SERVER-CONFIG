@@ -165,7 +165,6 @@ Lo primero es crear la maquina virtual obviamente:
   <summary>Imagen de la configuracion del usuario</summary>
 
 ![Configuracion instalacion ubuntu server](Screenshots/UbuntuInstallationConfig5.PNG)
-  
 </details>
 
 ### Preconfiguraciones al servidor DHCP
@@ -204,6 +203,7 @@ apt update && apt upgrade && apt install isc-dhcp-server
 <details>
 <summary>Haz clic aquí para ver la imagen de la explicación</summary>
 
+
 ![Configuracion instalacion ubuntu server](Screenshots/UbuntuConfig.PNG)
 </details>
 
@@ -211,6 +211,7 @@ apt update && apt upgrade && apt install isc-dhcp-server
 
 <details>
 <summary>Haz clic aquí para ver la imagen de la explicación</summary>
+
 
 ![Configuracion instalacion ubuntu server](Screenshots/UbuntuConfig2.PNG)
 </details>
@@ -244,7 +245,7 @@ cp 50-cloud-init.yaml (Aqui poneis el nombre que le quereis dar EJ: 50-cloud-ini
 nano 50-cloud-init.yaml
 ```
 
-- Una vez dentro del archivo, tiene que añadir lo siguiente al archivo, **AVISO:** no puedes usar tabulaciones sino peta:
+- Una vez dentro del archivo, tienes que añadir lo siguiente al archivo, **AVISO:** no puedes usar tabulaciones, y cualquier espacio demás ya sea por delante o por detrás de cualquier palabra hacen que el siguiente comando no funcion, es decir, que el archivo es muy exquisito y si no lo escribes perfectamente empieza a petar:
 
 ```
 network:
@@ -252,7 +253,7 @@ network:
         enp0s3:
           dhcp4: no
           addresses: [192.168.1.5/24, ]
-          gatewary4: 192.168.1.0
+          gateway4: 192.168.1.0
 
           version: 2
 ```
@@ -316,6 +317,7 @@ option routers 192.168.1.1;
 }
 ```
 - Resultado:
+
 ![Configuración del servidor DHCP](Screenshots/UbuntuDHCPConfig.PNG)
 - Explicacion del archivo:
   - **subnet:** aqui va una direccion ip que se le asigna a la subred, esta direccion ip tiene que ir acorde a la direccion ip estatica asignada al servidor. Por ejemplo: **tengo la IP estatica 192.168.64.5, en subnet tendriamos que poner 192.168.64.0**, justo al lado tenemos la mascara de subred que es /24 o 255.255.255.0, esto en principio no hay que modificarlo.
